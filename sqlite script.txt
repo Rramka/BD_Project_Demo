@@ -1,0 +1,65 @@
+
+-- create tables
+create table IF NOT EXISTS currency(
+     ID INTEGER primary key ,
+     ccyfrom TEXT not null,
+     ccyto TEXT not null,
+     rate real(2,1) not null);
+
+create table IF NOT EXISTS Clients(
+    ID INTEGER primary key ,
+    ClientID INTEGER not null ,
+    FirstName TEXT not null ,
+    LastName TEXT not null ,
+    Age INTEGER not null ,
+    IBAN TEXT not null ,
+    validFrom TEXT not null ,
+    validTo TEXT not null);
+
+create table IF NOT EXISTS Transactions(
+     ID INTEGER primary key ,
+     IBAN TEXT not null ,
+     Amount real(2,1) not null ,
+     CurrencyID INTEGER not null ,
+     Tran_Date TEXT not null );
+
+
+-- insert into tables
+insert into currency(ID, ccyfrom, ccyto, rate)values
+    (1,    'GEL', 'GEL', 1),
+    (2,    'USD', 'GEL', 3.2),
+    (3,    'EUR', 'GEL', 3.8),
+    (4,    'GBP', 'GEL', 4.2);
+
+drop table currency
+insert into Clients(ID, ClientID,FirstName, LastName,Age, IBAN,  validFrom, validTo) VALUES
+    (1, 100000,'ილია',  'ჭავჭავაძე',  36, 'RDRTGE2200000123',  '2020-09-21', '2020-09-24'),
+    (2, 100001,'აკაკი',  'წერეთელი', 38,  'RDRTGE2200000321',  '2020-09-21', '2100-01-01'),
+    (3, 100001,'აკაკი',  'წერეთელი', 38,  'RDRTGE2200000324',   '2020-09-24', '2100-01-01'),
+    (4, 100000,'ილია',  'ჭავჭავაძე',  37,  'RDRTGE2200000123',   '2020-09-25', '2100-01-01'),
+    (5, 100001,'აკაკი',  'წერეთელი',  38,  'RDRTGE2200000325',   '2020-09-21', '2100-01-01');
+
+insert into  Transactions(ID, IBAN, Amount, CurrencyID, Tran_Date) values
+    (1, 'RDRTGE2200000123',   23.34,   1, '2020-09-21'),
+    (2, 'RDRTGE2200000123',   123.34,  1, '2020-09-21'),
+    (3, 'RDRTGE2200000324',   233.88,  1, '2020-09-21'),
+    (4, 'RDRTGE2200000123',   24.34,   2, '2020-09-22'),
+    (5, 'RDRTGE2200000123',   224.34,  2, '2020-09-22'),
+    (6, 'RDRTGE2200000324',   234.88,  2, '2020-09-22'),
+    (7, 'RDRTGE2200000123',   25.34,   3, '2020-09-23'),
+    (8, 'RDRTGE2200000324',   235.88,  4, '2020-09-23'),
+    (9, 'RDRTGE2200000123',   326.34,  3, '2020-09-24'),
+    (10,'RDRTGE2200000324',   236.88,  3, '2020-09-24'),
+    (11,'RDRTGE2200000325',   238.88,  1, '2020-09-24'),
+    (12,'RDRTGE2200000123',   27.34,   2, '2020-09-25'),
+    (13,'RDRTGE2200000324',   237.88,  3, '2020-09-25'),
+    (14,'RDRTGE2200000123',   428.34,  2, '2020-09-26'),
+    (15,'RDRTGE2200000325',   239.88,  2, '2020-09-27'),
+    (16,'RDRTGE2200000325',   240.88,  2, '2020-09-28'),
+    (17,'RDRTGE2200000325',   241.88,  1, '2020-09-29'),
+    (18,'RDRTGE2200000325',   242.88,  3, '2020-09-30');
+
+-- create index
+CREATE INDEX 'IDX_Clients_iban' ON Clients (IBAN);
+CREATE INDEX 'IDX_Clients_Client_ID' ON Clients (ClientID);
+CREATE INDEX 'IDX_Transactions_iban' ON Transactions (IBAN);
